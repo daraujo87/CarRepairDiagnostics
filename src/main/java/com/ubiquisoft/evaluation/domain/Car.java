@@ -3,6 +3,7 @@ package com.ubiquisoft.evaluation.domain;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,27 @@ public class Car {
 		 *      }
 		 */
 
-		return null;
+		Map<PartType, Integer> missingParts = new HashMap<PartType, Integer>();
+
+		int engine = 1, electrical = 1, tires = 4, fuel_filter = 1, oil_filter = 1;
+
+		for (Part part : parts){
+
+			if (part.getType() == PartType.ENGINE) engine--;
+			if (part.getType() == PartType.ELECTRICAL) electrical--;
+			if (part.getType() == PartType.TIRE) tires--;
+			if (part.getType() == PartType.FUEL_FILTER) fuel_filter--;
+			if (part.getType() == PartType.OIL_FILTER) oil_filter--;
+
+		}
+
+		if (engine != 0) missingParts.put(PartType.ENGINE, 1);
+		if (electrical != 0) missingParts.put(PartType.ELECTRICAL, 1);
+		if (tires != 0) missingParts.put(PartType.TIRE, tires);
+		if (fuel_filter != 0) missingParts.put(PartType.FUEL_FILTER, 1);
+		if (oil_filter != 0) missingParts.put(PartType.OIL_FILTER, 1);
+
+		return missingParts;
 	}
 
 	@Override

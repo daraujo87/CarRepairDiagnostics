@@ -39,6 +39,50 @@ public class CarDiagnosticEngine {
 		 * console output is as least as informative as the provided methods.
 		 */
 
+		int carInfo = 0;
+
+		if (car.getYear() == null) carInfo += 1;
+		if (car.getMake() == null) carInfo += 2;
+		if (car.getModel() == null) carInfo += 4;
+
+		switch (carInfo) {
+
+			case 1: throw new IllegalArgumentException("Year must not be null");
+
+			case 2: throw new IllegalArgumentException("Make must not be null");
+
+			case 3: throw new IllegalArgumentException("Year and Make must not be null");
+
+			case 4: throw new IllegalArgumentException("Model must not be null");
+
+			case 5: throw new IllegalArgumentException("Year and Model must not be null");
+
+			case 6: throw new IllegalArgumentException("Make and Model must not be null");
+
+			case 7: throw new IllegalArgumentException("Year Make and Model must not be null");
+
+			default: break;
+		}
+
+		boolean goodCondition = true;
+
+		for (PartType missingPart : car.getMissingPartsMap().keySet()){
+		    printMissingPart(missingPart, car.getMissingPartsMap().get(missingPart));
+        }
+
+        if (!car.getMissingPartsMap().isEmpty()) throw new IllegalArgumentException("The car is not in good condition");
+
+        for (Part part : car.getParts()){
+            if (part.getCondition() == ConditionType.FLAT || part.getCondition() == ConditionType.DAMAGED || part.getCondition() == ConditionType.NO_POWER ||
+                part.getCondition() == ConditionType.SIEZED || part.getCondition() == ConditionType.CLOGGED || part.getCondition() == ConditionType.USED) {
+                printDamagedPart(part.getType(), part.getCondition());
+                goodCondition = false;
+            }
+        }
+
+        if (!goodCondition) throw new IllegalArgumentException("The car is not in good condition");
+
+        System.out.println("The car is in good condition");
 
 	}
 
